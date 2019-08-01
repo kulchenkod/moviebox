@@ -1,0 +1,38 @@
+.paginate {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    margin-bottom: 40px;
+}
+.pagination {
+    display: flex;
+    color: #FF0079;
+    font-family: Source Sans Pro;
+    font-weight: 700;
+}
+.pagination li {
+    list-style-type: none;
+    border: 2px solid #FF0079;
+    margin-right: 5px;
+    cursor: pointer;
+    font-size: 20px;
+}
+.pagination a {
+    height: 40px;
+    width: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.active {
+    background-color: #FF0079;
+    color: white;
+}
+
+@media (max-width: 576px) {
+    .pagination li:not(.previous):not(.next) {
+        display: none;
+    }
+}
+
