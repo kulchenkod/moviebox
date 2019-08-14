@@ -8,41 +8,37 @@ import Loading from '../Loading/Loading';
 @observer
 class MovieDetails extends React.Component {
 
-    constructor(props) {
-        super(props);
-        this.props.movieStore.favorites = JSON.parse(localStorage.getItem('favorites')) || [] ;
-    }
-
     async componentDidMount() {
         const { movieStore: { fetchDetailsMovie }, match: { params: { id } } } = this.props;
         await fetchDetailsMovie(id);
+    }
+
+    click = () => {
+        const { getClick, addToFavorites, removeFromFavorites } = this.props.movieStore;
+        if(getClick) {
+            return removeFromFavorites();
+        }
+        addToFavorites();
+    }
+
+    changeText = () => {
+        const { getClick } = this.props.movieStore;
+        if(getClick) {
+            return 'Remove from favorites';
+        }
+        return 'Add to favorites';
     }
 
     renderGenre = ((genre,i,arr) => {
         return (i < arr.length - 1) ? genre.name + ', ' : genre.name;
     })
 
-    addToFavorites = () => {
-        const { favorites, detailsMovie } = this.props.movieStore;
-        if (!favorites.find(movie => movie.id === detailsMovie.id)) {
-            favorites.push(detailsMovie);
-            localStorage.setItem('favorites', JSON.stringify(favorites));
-            console.log(JSON.parse(localStorage.getItem('favorites')));
-            
-        } 
-    }
-
-    removeFromFavorites = () => {
-        const { favorites, detailsMovie } = this.props.movieStore;
-        const filter = favorites.filter(movie => movie.id !== detailsMovie.id);
-        localStorage.setItem('favorites', JSON.stringify(filter));
-        this.props.movieStore.favorites = JSON.parse(localStorage.getItem('favorites'));
-        console.log(JSON.parse(localStorage.getItem('favorites')));
-    }
-
     render() {
-        const { detailsMovie, isDetailsLoading, favorites } = this.props.movieStore;
-        return ( isDetailsLoading ? <Loading /> :
+        const { detailsMovie, isDetailsLoading } = this.props.movieStore;
+        if(isDetailsLoading) {
+            return <Loading />;
+        }
+        return (
             <div className="movieDetails">
                 <div className="movieDetails_header">
                     <img className="movieDetails_img" src={process.env.REACT_APP_IMG_URL_ORIGINAL+detailsMovie.backdrop_path} alt="MovieImg"/>
@@ -59,12 +55,7 @@ class MovieDetails extends React.Component {
                         <div className="movieDetails_poster">
                             <img src={process.env.REACT_APP_IMG_URL_ORIGINAL+detailsMovie.poster_path} alt="" className="movieDetails_poster-img"/>
                         </div>
-                        {
-                            (favorites.find(movie => movie.id === detailsMovie.id)) ?
-                                <button className="movieDetails_button" onClick={this.removeFromFavorites} >Remove from favorites <i className="far fa-star"></i><i className="fas fa-star"></i></button> 
-                                :
-                                <button className="movieDetails_button" onClick={this.addToFavorites} >Add to favorites <i className="far fa-star"></i><i className="fas fa-star"></i></button> 
-                        }
+                        <button className="movieDetails_button" onClick={this.click}>{this.changeText()}<i className="far fa-star"></i><i className="fas fa-star"></i></button>
                     </div>
                     <div className="movieDetails_overview">
                         <h2 className="movieDetails_overview-title">Overview</h2>
@@ -72,7 +63,7 @@ class MovieDetails extends React.Component {
                     </div>
                 </div>
             </div>
-        )
+        );
     }
 }
 export default MovieDetails;

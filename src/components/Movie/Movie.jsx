@@ -12,13 +12,17 @@ class Movie extends React.Component {
     return (i < arr.length - 1) ? this.props.genreObj[genre] + ', ' : this.props.genreObj[genre];
   })
 
+  genreDetails = ((genre,i,arr) => {
+    return (i < arr.length - 1) ? genre.name.charAt(0).toUpperCase() + genre.name.slice(1) + ', ' : genre.name.charAt(0).toUpperCase() + genre.name.slice(1);
+  })
+
   detailsPage = (event) => {
     const { id } = this.props;
     this.props.history.push(`/movie/${id}`)
   }
 
   render() {
-    const { item } = this.props;
+    const { item, genreObj } = this.props;
     return (
       <div className="movie" onClick={this.detailsPage}>
         <div className="movie_poster">
@@ -28,7 +32,7 @@ class Movie extends React.Component {
         <div className="movie_info">
           <div className="movie_description">
             <span className="movie_name">{item.title}</span>
-            <span className="movie_genre">{item.genre_ids.map(this.renderGenre)}</span>
+            <span className="movie_genre">{item.genre_ids ? item.genre_ids.map(this.renderGenre) : genreObj.map(this.genreDetails)}</span>
           </div>
           <div className="movie_rang">{(Number.isInteger(item.vote_average)) ? 
             item.vote_average + '.0' : 

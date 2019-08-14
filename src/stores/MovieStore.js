@@ -1,9 +1,9 @@
-import { observable, action } from "mobx";
-import React from "react";
+import React from 'react';
+import { observable, action, computed } from "mobx";
 import axios from "axios";
-import { create, persist } from 'mobx-persist'
+import { persist } from "mobx-persist";
 
-class MovieStore extends React.Component {
+class MovieStore extends React.Component{
 
     @observable movies = [];
     @observable genres = {};
@@ -12,8 +12,6 @@ class MovieStore extends React.Component {
     @observable isDetailsLoading = true;
     @observable detailsMovie = {};
     @persist('list') @observable favorites = [];
-
-    @action hydrate = create({})
 
     @action fetchMovie = async (page) => {
         try {
@@ -30,6 +28,21 @@ class MovieStore extends React.Component {
             this.isMoviesLoading = true;
             console.log(e, 'Error');
         }
+    }
+
+    @action addToFavorites = () => {
+        this.favorites.push(this.detailsMovie);
+    }
+
+    @action removeFromFavorites = () => {
+        this.favorites = this.favorites.filter(movie => movie.id !== this.detailsMovie.id);
+    }
+
+    @computed get getClick() {
+        if(this.favorites.find(movie => movie.id === this.detailsMovie.id)) {
+            return true;
+        }
+        return false;
     }
     
     @action fetchGenre = async () => {

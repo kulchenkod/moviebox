@@ -11,7 +11,10 @@ class Footer extends React.Component {
             <div className="footer_nav">
               <h1 className="title footer_title">Themovie<span className="title-bold">box</span></h1>
               <nav className="footer_nav-list">
-                <Link to="/" className="footer_nav-item">Home</Link>
+                <Link to="/favorites/" className="footer_nav-item">Favorites</Link>
+                <Link to="/" className="footer_nav-item">Movies</Link>
+                <a href="/" className="footer_nav-item">Ratings</a>
+                <a href="/" className="footer_nav-item">Contact</a>
               </nav>
             </div>
             <div className="footer_rights">
