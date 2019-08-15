@@ -58,6 +58,7 @@
     overflow: hidden;
     width: 185px;
     text-overflow: ellipsis;
+    text-transform: capitalize;
 }
 .movie_rang {
     font-size: 13px;

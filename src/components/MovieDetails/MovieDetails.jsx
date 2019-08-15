@@ -13,20 +13,12 @@ class MovieDetails extends React.Component {
         await fetchDetailsMovie(id);
     }
 
-    click = () => {
-        const { getClick, addToFavorites, removeFromFavorites } = this.props.movieStore;
-        if(getClick) {
+    changeEvent = () => {
+        const { isFavoriteMovie, addToFavorites, removeFromFavorites } = this.props.movieStore;
+        if(isFavoriteMovie) {
             return removeFromFavorites();
         }
         addToFavorites();
-    }
-
-    changeText = () => {
-        const { getClick } = this.props.movieStore;
-        if(getClick) {
-            return 'Remove from favorites';
-        }
-        return 'Add to favorites';
     }
 
     renderGenre = ((genre,i,arr) => {
@@ -34,7 +26,7 @@ class MovieDetails extends React.Component {
     })
 
     render() {
-        const { detailsMovie, isDetailsLoading } = this.props.movieStore;
+        const { detailsMovie, isDetailsLoading, isFavoriteMovie } = this.props.movieStore;
         if(isDetailsLoading) {
             return <Loading />;
         }
@@ -55,7 +47,7 @@ class MovieDetails extends React.Component {
                         <div className="movieDetails_poster">
                             <img src={process.env.REACT_APP_IMG_URL_ORIGINAL+detailsMovie.poster_path} alt="" className="movieDetails_poster-img"/>
                         </div>
-                        <button className="movieDetails_button" onClick={this.click}>{this.changeText()}<i className="far fa-star"></i><i className="fas fa-star"></i></button>
+                        <button className="movieDetails_button" onClick={this.changeEvent}>{ isFavoriteMovie ? 'Remove from favorites' : 'Add to favorites' }<i className="far fa-star"></i><i className="fas fa-star"></i></button>
                     </div>
                     <div className="movieDetails_overview">
                         <h2 className="movieDetails_overview-title">Overview</h2>

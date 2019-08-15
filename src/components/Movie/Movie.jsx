@@ -13,10 +13,10 @@ class Movie extends React.Component {
   })
 
   genreDetails = ((genre,i,arr) => {
-    return (i < arr.length - 1) ? genre.name.charAt(0).toUpperCase() + genre.name.slice(1) + ', ' : genre.name.charAt(0).toUpperCase() + genre.name.slice(1);
+    return (i < arr.length - 1) ? genre.name + ', ' : genre.name;
   })
 
-  detailsPage = (event) => {
+  detailsPage = () => {
     const { id } = this.props;
     this.props.history.push(`/movie/${id}`)
   }

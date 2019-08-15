@@ -38,7 +38,7 @@ class MovieStore extends React.Component{
         this.favorites = this.favorites.filter(movie => movie.id !== this.detailsMovie.id);
     }
 
-    @computed get getClick() {
+    @computed get isFavoriteMovie() {
         if(this.favorites.find(movie => movie.id === this.detailsMovie.id)) {
             return true;
         }
@@ -50,7 +50,7 @@ class MovieStore extends React.Component{
             const { data } = await axios.get("/genre/movie/list");
             this.genres = data.genres.reduce((start, item) => ({
                 ...start,
-                [item.id]: item.name.charAt(0).toUpperCase() + item.name.slice(1)
+                [item.id]: item.name
             }), {});
         } catch(e) {
             console.log(e, 'Error');
