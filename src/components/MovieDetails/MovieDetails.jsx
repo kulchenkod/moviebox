@@ -13,7 +13,7 @@ class MovieDetails extends React.Component {
         await fetchDetailsMovie(id);
     }
 
-    changeEvent = () => {
+    changeEventButtonFavorites = () => {
         const { isFavoriteMovie, addToFavorites, removeFromFavorites } = this.props.movieStore;
         if(isFavoriteMovie) {
             return removeFromFavorites();
@@ -47,7 +47,7 @@ class MovieDetails extends React.Component {
                         <div className="movieDetails_poster">
                             <img src={process.env.REACT_APP_IMG_URL_ORIGINAL+detailsMovie.poster_path} alt="" className="movieDetails_poster-img"/>
                         </div>
-                        <button className="movieDetails_button" onClick={this.changeEvent}>{ isFavoriteMovie ? 'Remove from favorites' : 'Add to favorites' }<i className="far fa-star"></i><i className="fas fa-star"></i></button>
+                        <button className="movieDetails_button" onClick={this.changeEventButtonFavorites}>{ isFavoriteMovie ? 'Remove from favorites' : 'Add to favorites' }<i className="far fa-star"></i><i className="fas fa-star"></i></button>
                     </div>
                     <div className="movieDetails_overview">
                         <h2 className="movieDetails_overview-title">Overview</h2>
