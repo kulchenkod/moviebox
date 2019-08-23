@@ -1,11 +1,8 @@
 import React from "react";
-import { inject, observer } from 'mobx-react';
 import { withRouter } from "react-router";
 
 import './movie.css';
 
-@inject('movieStore')
-@observer
 class Movie extends React.Component {
 
   renderGenre = ((genre,i,arr) => {

@@ -1,16 +1,14 @@
 import React from "react";
-import { observer, inject } from 'mobx-react';
-import Movie from "../Movie/Movie";
-import { hydrateStores } from '../../stores/index';
+import { connect } from "react-redux";
 
-@inject('movieStore')
-@observer
+import * as actions from "../../stores/actions/action";
+import Movie from "../Movie/Movie";
+
 class Favorites extends React.Component {
 
   async componentDidMount() {
-    const { fetchFavorites } = this.props.movieStore;
-    await hydrateStores();
-    await fetchFavorites();
+    const { fetchFavorites, favorites } = this.props;
+    await fetchFavorites(favorites)
   }
 
 
@@ -24,8 +22,7 @@ class Favorites extends React.Component {
   }
 
   render() {
-    const { favoritesListToShow } = this.props.movieStore;
-    console.log(favoritesListToShow)
+    const { favoritesListToShow } = this.props;
     return (
       <div className="main layout">
         { favoritesListToShow.map(this.renderMovies) }
@@ -33,6 +30,23 @@ class Favorites extends React.Component {
     );
   }
 }
-export default Favorites;
+
+function mapStateToProps(store) {
+  return {
+    favorites: store.favorites,
+    favoritesListToShow: store.favoritesListToShow
+  };
+}
+
+function mapDispatcToProps(dispatch) {
+  return {
+    fetchFavorites: (favorites) => dispatch(actions.fetchFavorites(favorites))
+  }
+}
+
+export default connect(
+  mapStateToProps,
+  mapDispatcToProps
+)(Favorites);
 
 

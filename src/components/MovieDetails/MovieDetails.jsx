@@ -1,20 +1,20 @@
 import React from 'react';
-import { inject, observer } from 'mobx-react';
+import { connect } from "react-redux";
 
+import * as actions from "../../stores/actions/action";
+import { isFavoriteMovie } from "../../stores/selectors/selector";
 import './movieDetails.css';
 import Loading from '../Loading/Loading';
 
-@inject('movieStore')
-@observer
 class MovieDetails extends React.Component {
 
     async componentDidMount() {
-        const { movieStore: { fetchDetailsMovie }, match: { params: { id } } } = this.props;
-        await fetchDetailsMovie(id);
+        const { match: { params: { id } }, fetchDetails } = this.props;
+        await fetchDetails(id);
     }
 
     changeEventButtonFavorites = () => {
-        const { isFavoriteMovie, addToFavorites, removeFromFavorites } = this.props.movieStore;
+        const { isFavoriteMovie, addToFavorites, removeFromFavorites } = this.props;
         if(isFavoriteMovie) {
             return removeFromFavorites();
         }
@@ -26,7 +26,7 @@ class MovieDetails extends React.Component {
     })
 
     render() {
-        const { detailsMovie, isDetailsLoading, isFavoriteMovie } = this.props.movieStore;
+        const { detailsMovie, isDetailsLoading, isFavoriteMovie } = this.props;
         if(isDetailsLoading) {
             return <Loading />;
         }
@@ -58,4 +58,23 @@ class MovieDetails extends React.Component {
         );
     }
 }
-export default MovieDetails;
+function mapStateToProps(store) {
+    return {
+        isFavoriteMovie: isFavoriteMovie(store),
+        detailsMovie: store.detailsMovie,
+        isDetailsLoading: store.isDetailsLoading
+    };
+  }
+  
+function mapDispatcToProps(dispatch) {
+    return {
+        fetchDetails: (id) => dispatch(actions.fetchDetails(id)),
+        addToFavorites: () => dispatch(actions.addToFavorites()),
+        removeFromFavorites: () => dispatch(actions.removeFromFavorites())
+    }
+}
+  
+export default connect(
+    mapStateToProps,
+    mapDispatcToProps
+)(MovieDetails);

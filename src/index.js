@@ -1,19 +1,19 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { Provider } from "mobx-react";
+import { Provider } from 'react-redux';
+import { PersistGate } from 'redux-persist/integration/react'
 import '@fortawesome/fontawesome-free/css/all.css';
 
-import "./configs/axios";
 import App from './App';
-import MovieStore from "./stores/MovieStore";
-import { hydrateStores } from './stores/index';
+import { store, persistor } from "./stores/store";
 import './index.css';
+import "./configs/axios";
 
 ReactDOM.render(
-  <Provider movieStore={MovieStore}>
-    <App/>
+  <Provider store={store}>
+    <PersistGate persistor={persistor}>
+      <App/>
+    </PersistGate>
   </Provider>,
   document.getElementById('root')
 );
-
-hydrateStores();

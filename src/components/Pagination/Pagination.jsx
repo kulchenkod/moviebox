@@ -1,17 +1,16 @@
 import React from 'react';
-import { inject, observer } from "mobx-react";
 import ReactPaginate from 'react-paginate';
 import { withRouter } from "react-router";
+import { connect } from "react-redux";
 
+import * as actions from "../../stores/actions/action";
 import "./pagination.css"
 
-@inject('movieStore')
-@observer
 class Pagination extends React.Component {
 
     handlePageClick = (page) => {
         const selectedPage = page.selected + 1;
-        this.props.movieStore.fetchMovie(selectedPage);
+        this.props.fetchMovie(selectedPage);
         this.props.history.push(`/page/${selectedPage}`);
     }
 
@@ -25,7 +24,7 @@ class Pagination extends React.Component {
                     nextLabel={'>'}
                     breakLabel={'...'}
                     breakClassName={'break-me'}
-                    pageCount={this.props.movieStore.totalPages}
+                    pageCount={this.props.totalPages}
                     marginPagesDisplayed={2}
                     pageRangeDisplayed={2}
                     onPageChange={this.handlePageClick}
@@ -38,4 +37,19 @@ class Pagination extends React.Component {
         )
     }
 }
-export default withRouter(Pagination);
+function mapStateToProps(store) {
+    return {
+      totalPages: store.totalPages
+    };
+}
+
+function mapDispatcToProps(dispatch) {
+    return {
+        fetchMovie: (selectedPage) => dispatch(actions.fetchMovie(selectedPage)),
+    }
+}
+
+export default connect(
+    mapStateToProps,
+    mapDispatcToProps
+)(withRouter(Pagination));
