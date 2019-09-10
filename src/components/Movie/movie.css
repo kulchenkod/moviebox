@@ -1,0 +1,82 @@
+.movie {
+    width: 265px;
+    margin-bottom: 35px;
+    box-shadow: 0px 2px 35px rgba(0, 0, 0, 0.1);
+    font-family: 'Source Sans Pro', sans-serif;
+    max-width: 280px;
+    transition: transform 0.3s;
+}
+.movie:hover {
+    transform: scale(1.1);
+    z-index: 100;
+    cursor: pointer;
+    transition: transform 0.3s;
+}
+.movie_poster {
+    font-size: 0;
+    position: relative;
+    height: 375px;
+}
+.movie_poster-img {
+    width: 100%;
+    height: 100%;
+}
+.movie_poster-year {
+    font-size: 20px;
+    color: #BABBC3;
+    position: absolute;
+    bottom: 15px;
+    left: 15px;
+}
+.movie_info {
+    background-color: #fff;
+    padding: 15px;
+    height: 75px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-sizing: border-box;
+}
+.movie_description {
+    font-size: 18px;
+    display: flex;
+    flex-direction: column;
+}
+.movie_name {
+    color: #494C62;
+    font-weight: 700;
+    margin-bottom: 5px;
+    white-space: nowrap;
+    overflow: hidden;
+    width: 185px;
+    text-overflow: ellipsis;
+}
+.movie_genre {
+    font-size: 15px;
+    color: #BABBC3;
+    white-space: nowrap;
+    overflow: hidden;
+    width: 185px;
+    text-overflow: ellipsis;
+    text-transform: capitalize;
+}
+.movie_rang {
+    font-size: 13px;
+    min-width: 30px;
+    min-height: 30px;
+    display: flex;
+    border: 2px solid #FF0079;
+    border-radius: 5px;
+    font-weight: 700;
+    color: #FF0079;
+    align-items: center;
+    justify-content: center;
+}
+@media (max-width: 1140px) {
+    .main {
+        padding: 50px 20px 20px 20px;
+    }
+    .movie {
+        width: 290px;
+    }
+}
